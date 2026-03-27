@@ -52,7 +52,7 @@ Kali Linux VM
 
 ### Step 2 — Kali Linux VM
 
-1. Download [Kali Kali Linux VirtualBox image](https://www.kali.org/get-kali/#kali-virtual-machines)
+1. Download [Kali Linux VirtualBox image](https://www.kali.org/get-kali/#kali-virtual-machines)
 
    The download comes as a pre-built VM in a `.7z` archive. Extract it — you will get a `.vdi` file (virtual disk image). Kali is pre-built so you don't need to install it from scratch.
 
