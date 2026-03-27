@@ -1,4 +1,4 @@
-# Claude Desktop + Kali Linux MCP — Windows
+# Claude Desktop + Kali Linux MCP - Windows
 
 Connect Claude Desktop on Windows to a Kali Linux VM via MCP (Model Context Protocol), allowing Claude to run Kali tools and commands through natural language.
 
