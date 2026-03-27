@@ -104,19 +104,19 @@ Kali Linux VM
 Open **Command Prompt** on Windows:
 
 ```cmd
-ssh-keygen -t ed25519 -f C:\Users\USERNAME\.ssh\kali_lab  # replace USERNAME with your Windows username
+ssh-keygen -t ed25519 -f C:\Users\USERNAME\.ssh\kali_lab 
 ```
 
 Press Enter twice (no passphrase).
 
 Copy the key to Kali:
 ```cmd
-type C:\Users\USERNAME\.ssh\kali_lab.pub | ssh kali@192.168.56.x "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"  # replace USERNAME with your Windows username
+type C:\Users\USERNAME\.ssh\kali_lab.pub | ssh kali@192.168.56.x "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys" 
 ```
 
 Test:
 ```cmd
-ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x  # replace USERNAME with your Windows username
+ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x 
 ```
 Should connect with no password prompt.
 
@@ -222,7 +222,7 @@ KALI_HOST = "192.168.56.x"   # replace with your Kali IP
 KALI_KEY  = r"C:\Users\USERNAME\.ssh\kali_lab"  # replace USERNAME with your Windows username
 ```
 
-Save the file to your user folder — for example `C:\Users\USERNAME\kali_bridge.py`.  # replace USERNAME with your Windows username
+Save the file to your user folder — for example `C:\Users\USERNAME\kali_bridge.py`. 
 
 ---
 
@@ -276,12 +276,12 @@ To connect additional VMs or servers, create a bridge script for each and add to
   "mcpServers": {
     "kali-lab": {
       "command": "python",
-      "args": ["C:\\Users\\USERNAME\\kali_bridge.py"],  # replace USERNAME with your Windows username
+      "args": ["C:\\Users\\USERNAME\\kali_bridge.py"],  
       "transport": "stdio"
     },
     "other-vm": {
       "command": "python",
-      "args": ["C:\\Users\\USERNAME\\other_bridge.py"],  # replace USERNAME with your Windows username
+      "args": ["C:\\Users\\USERNAME\\other_bridge.py"],  
       "transport": "stdio"
     }
   }
@@ -295,7 +295,7 @@ To connect additional VMs or servers, create a bridge script for each and add to
 | Problem | Fix |
 |---|---|
 | MCP shows failed | `sudo systemctl status kali-mcp-api` on Kali |
-| SSH won't connect | Run `ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x echo ok` in PowerShell  # replace USERNAME with your Windows username | 
+| SSH won't connect | Run `ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x echo ok` in PowerShell | 
 | Tools show false in health check | Apply the execute_command fix in server.py |
 | Request timed out | Make sure kali-mcp-api service is running |
 | Kali IP changed after reboot | Run `ip a` in Kali, update `kali_bridge.py` with new IP |
