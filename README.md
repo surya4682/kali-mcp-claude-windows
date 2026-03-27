@@ -296,7 +296,7 @@ To connect additional VMs or servers, create a bridge script for each and add to
 |---|---|
 | MCP shows failed | `sudo systemctl status kali-mcp-api` on Kali |
 | SSH won't connect | Run `ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x echo ok` in PowerShell | 
-| Tools show false in health check | Apply the execute_command fix in server.py |
+| Tools show false in health check | See Step 4 - apply the execute_command fix in `/usr/share/mcp-kali-server/server.py`|
 | Request timed out | Make sure kali-mcp-api service is running |
 | Kali IP changed after reboot | Run `ip a` in Kali, update `kali_bridge.py` with new IP |
 | VMs can't reach each other | Confirm Host-Only adapter is set and DHCP is enabled |
