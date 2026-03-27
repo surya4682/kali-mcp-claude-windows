@@ -11,7 +11,7 @@ Windows Host (Claude Desktop)
         |
         | Python bridge (paramiko SSH)
         |
-Kali Linux VM (192.168.56.3)
+Kali Linux VM
 ```
 
 ---
@@ -21,7 +21,7 @@ Kali Linux VM (192.168.56.3)
 - Windows PC with 16GB RAM minimum
 - VirtualBox with Extension Pack
 - Kali Linux VM
-- Claude Desktop with Claude Pro subscription ($20/month)
+- Claude Desktop 
 - Python 3.11+ on Windows
 - paramiko Python library
 
@@ -33,28 +33,50 @@ Kali Linux VM (192.168.56.3)
 
 1. Download and install VirtualBox from **virtualbox.org**
 2. Install the VirtualBox Extension Pack from the same page
-3. Create a Host-Only Network:
+
+3. Check the Host-Only Network:
    ```
-   File → Tools → Network Manager → Create
+   File → Tools → Network
    ```
-   Note the adapter name (usually `vboxnet0`)
+   VirtualBox usually creates a Host-Only network automatically when installed. You should see one already listed. If the list is empty, click **Create** to add one.
+
+   > **Important:** Select the adapter → click the **DHCP Server** tab → make sure **Enable Server** is ticked. Sometimes DHCP is not enabled by default and your VMs won't get IP addresses without it.
 
 ---
 
 ### Step 2 — Kali Linux VM
 
-1. Download Kali VM from **kali.org/get-kali/#kali-virtual-machines** (VirtualBox version)
-2. Import into VirtualBox:
+1. Download the Kali Linux VirtualBox image from **kali.org/get-kali/#kali-virtual-machines**
+
+   The download comes as a pre-built VM in a `.7z` archive. Extract it — you will get a `.vdi` file (virtual disk image). Kali is pre-built so you don't need to install it from scratch.
+
+2. Create a new VM using the VDI file:
    ```
-   File → Import Appliance → select .ova file
+   VirtualBox → New
+     Name: Kali Linux
+     Type: Linux
+     Version: Debian 64-bit
+     → Next
+     RAM: 4096MB (4GB minimum)
+     → Next
+     Select: Use an existing virtual hard disk file
+     → click the folder icon → Add → select the .vdi file
+     → Create
    ```
+
 3. Set network adapters:
    ```
-   Settings → Network
-   Adapter 1: Host-Only Adapter (vboxnet0)
-   Adapter 2: NAT
+   Select Kali VM → Settings → Network
+
+   Adapter 1:
+     Attached to: NAT
+
+   Adapter 2:
+     tick Enable Network Adapter
+     Attached to: Host-Only Adapter
    ```
-4. Boot Kali (login: kali/kali) and run:
+
+4. Boot Kali (login: `kali` / `kali`) and run:
    ```bash
    sudo apt update && sudo apt full-upgrade -y
    sudo apt install -y openssh-server
@@ -62,13 +84,18 @@ Kali Linux VM (192.168.56.3)
    sudo systemctl start ssh
    ip a
    ```
-   Note the `192.168.56.x` IP address.
+   Note the `192.168.56.x` IP address on the Host-Only adapter — you will need this throughout the setup.
+
+5. **Install tools if missing.** A minimal Kali install may not have all tools pre-installed. If you get warnings about missing tools, run:
+   ```bash
+   sudo apt install -y nmap gobuster nikto dirb enum4linux hydra john sqlmap wpscan metasploit-framework wordlists
+   ```
 
 ---
 
 ### Step 3 — SSH Key Setup
 
-Open Command Prompt on Windows:
+Open **Command Prompt** on Windows:
 
 ```cmd
 ssh-keygen -t ed25519 -f C:\Users\USERNAME\.ssh\kali_lab
@@ -98,7 +125,7 @@ sudo apt update
 sudo apt install mcp-kali-server -y
 ```
 
-**Fix a known bug in the package** — the health check passes a list instead of a string:
+**Fix a known bug in the package** — the health check passes a list instead of a string which causes tools to show as missing even when installed:
 
 ```bash
 grep -n "which" /usr/share/mcp-kali-server/server.py
@@ -156,16 +183,33 @@ Health check should show all tools as `true`.
 
 ---
 
-### Step 5 — Python Bridge on Windows
+### Step 5 — Why We Need a Python Bridge
 
-The built-in Windows OpenSSH client has a stdio pipe issue with Claude Desktop. A Python bridge fixes this.
+On Windows, the built-in OpenSSH client behaves differently. When Claude Desktop tries to connect, Windows SSH closes stdin too quickly before Claude can send or receive data. This causes the MCP server to exit immediately every time, regardless of what connection settings you try.
 
-Install paramiko:
-```cmd
-python -m pip install paramiko
-```
+The fix is a small Python script that acts as a bridge. It uses the `paramiko` library to manage the SSH connection properly on Windows — keeping stdin open and forwarding data correctly between Claude Desktop and the Kali MCP server. This is a Windows-only requirement. If you run this setup on macOS or Linux you do not need the bridge.
 
-Create `C:\Users\USERNAME\kali_bridge.py`:
+---
+
+### Step 6 — Install Python and paramiko
+
+1. Download Python from **python.org/downloads** and install it. During installation make sure to tick **Add Python to PATH**.
+
+2. Open **PowerShell** on Windows and verify Python installed:
+   ```powershell
+   python --version
+   ```
+
+3. Install paramiko using PowerShell:
+   ```powershell
+   python -m pip install paramiko
+   ```
+
+---
+
+### Step 7 — Create the Python Bridge Script
+
+Open Notepad and paste the following. Save it as `C:\Users\USERNAME\kali_bridge.py` — when saving make sure to select **All Files** as the file type so it does not save as `.txt`.
 
 ```python
 import sys
@@ -234,16 +278,16 @@ t2.join()
 client.close()
 ```
 
-Replace `192.168.56.x` and `USERNAME` with your actual values.
+Replace `192.168.56.x` and `USERNAME` with your actual Kali IP and Windows username.
 
 ---
 
-### Step 6 — Claude Desktop
+### Step 8 — Claude Desktop
 
 1. Download Claude Desktop from **claude.ai/download**
 2. Sign in with your Claude Pro account
-3. Press `Win+R` → type `%APPDATA%\Claude`
-4. Open `claude_desktop_config.json` and replace everything with:
+3. Press `Win+R` → type `%APPDATA%\Claude` → Enter
+4. Open `claude_desktop_config.json` in Notepad and replace everything with:
 
 ```json
 {
@@ -261,14 +305,14 @@ Replace `192.168.56.x` and `USERNAME` with your actual values.
 
 Replace `USERNAME` with your actual Windows username.
 
-5. Fully quit Claude Desktop (including system tray) and reopen
+5. Fully quit Claude Desktop (including system tray) and reopen it
 6. Go to **Settings → Developer → kali-lab** — should show **running**
 
 ---
 
 ## Claude Desktop Project Setup
 
-Create a Project in Claude Desktop named **Kali Home Lab** with this system prompt:
+Create a Project in Claude Desktop named **Kali Home Lab** with this example system prompt:
 
 ```
 You have access to a Kali Linux machine via MCP tools in my home lab.
@@ -323,18 +367,17 @@ To connect additional VMs or servers, create a bridge script for each and add to
 | Problem | Fix |
 |---|---|
 | MCP shows failed | `sudo systemctl status kali-mcp-api` on Kali |
-| SSH won't connect | `ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x echo ok` |
+| SSH won't connect | Run `ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x echo ok` in PowerShell |
 | Tools show false in health check | Apply the execute_command fix in server.py |
 | Request timed out | Make sure kali-mcp-api service is running |
-| Kali IP changed after reboot | Run `ip a` in Kali, update `kali_bridge.py` |
+| Kali IP changed after reboot | Run `ip a` in Kali, update `kali_bridge.py` with new IP |
+| VMs can't reach each other | Confirm Host-Only adapter is set and DHCP is enabled |
 
 ---
 
 ## Notes
 
-- Claude Pro subscription required — MCP does not work on the free tier
 - The Python bridge is required on Windows due to OpenSSH stdio pipe limitations
-- The official Kali guide covers macOS only — this README documents the Windows-specific setup
 - Keep Kali on Host-Only network to isolate it from your real network
 
 ---
