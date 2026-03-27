@@ -101,7 +101,7 @@ Kali Linux VM
 
 ### Step 3 - SSH Key Setup
 
-Open **Command Prompt** on Windows:
+Open **Command Prompt** on Windows: (replace USERNAME with your Windows username)
 
 ```cmd
 ssh-keygen -t ed25519 -f C:\Users\USERNAME\.ssh\kali_lab 
