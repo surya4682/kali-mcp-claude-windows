@@ -229,12 +229,12 @@ Save the file to your user folder — for example `C:\Users\USERNAME\kali_bridge
 ### Step 8 - Claude Desktop
 
 1. Download and install [Claude Desktop](https://claude.ai/download)
-2. Sign in with your Claude Pro account
+2. Sign in with your Claude account
 3. Press `Win+R` → type `%APPDATA%\Claude` → Enter
 4. Download [`claude_desktop_config.json`](claude_desktop_config.json) from this repo and replace the existing file in that folder
 5. Open the file and update `USERNAME` to your actual Windows username
 6. Fully quit Claude Desktop including the system tray icon and reopen it
-7. Go to **Settings → Developer → kali-lab** — should show **running**
+7. Go to **Settings → Developer → kali-lab** - should show **running**
 
 ---
 
