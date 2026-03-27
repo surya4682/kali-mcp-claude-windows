@@ -37,7 +37,7 @@ Kali Linux VM
 
 ### Step 1 — VirtualBox
 
-1. Download and install VirtualBox from **virtualbox.org**
+1. Download and install [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
 2. Install the VirtualBox Extension Pack from the same page
 
 3. Check the Host-Only Network:
@@ -52,7 +52,7 @@ Kali Linux VM
 
 ### Step 2 — Kali Linux VM
 
-1. Download the Kali Linux VirtualBox image from **kali.org/get-kali/#kali-virtual-machines**
+1. Download [Kali Kali Linux VirtualBox image](https://www.kali.org/get-kali/#kali-virtual-machines)
 
    The download comes as a pre-built VM in a `.7z` archive. Extract it — you will get a `.vdi` file (virtual disk image). Kali is pre-built so you don't need to install it from scratch.
 
@@ -199,7 +199,7 @@ The fix is a small Python script that acts as a bridge. It uses the `paramiko` l
 
 ### Step 6 — Install Python and paramiko
 
-1. Download Python from **python.org/downloads** and install it. During installation make sure to tick **Add Python to PATH**.
+1. Download [Python](https://www.python.org/downloads/) and install it. During installation make sure to tick **Add Python to PATH**.
 
 2. Open **PowerShell** on Windows and verify Python installed:
    ```powershell
@@ -290,7 +290,7 @@ Replace `192.168.56.x` and `USERNAME` with your actual Kali IP and Windows usern
 
 ### Step 8 — Claude Desktop
 
-1. Download Claude Desktop from **claude.ai/download**
+1. Download [Claude Desktop](https://claude.ai/download/)
 2. Sign in with your Claude account
 3. Press `Win+R` → type `%APPDATA%\Claude` → Enter
 4. Open `claude_desktop_config.json` in Notepad and replace everything with:
