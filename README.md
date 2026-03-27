@@ -35,7 +35,7 @@ Kali Linux VM
 
 ## Setup
 
-### Step 1 — VirtualBox
+### Step 1 - VirtualBox
 
 1. Download and install [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
 2. Install the VirtualBox Extension Pack from the same page
@@ -50,7 +50,7 @@ Kali Linux VM
 
 ---
 
-### Step 2 — Kali Linux VM
+### Step 2 - Kali Linux VM
 
 1. Download [Kali Linux VirtualBox image](https://www.kali.org/get-kali/#kali-virtual-machines)
 
@@ -99,7 +99,7 @@ Kali Linux VM
 
 ---
 
-### Step 3 — SSH Key Setup
+### Step 3 - SSH Key Setup
 
 Open **Command Prompt** on Windows:
 
@@ -122,7 +122,7 @@ Should connect with no password prompt.
 
 ---
 
-### Step 4 — Install Official Kali MCP Server
+### Step 4 - Install Official Kali MCP Server
 
 In Kali terminal:
 
@@ -189,7 +189,7 @@ Health check should show all tools as `true`.
 
 ---
 
-### Step 5 — Why We Need a Python Bridge
+### Step 5 - Why We Need a Python Bridge
 
 On Windows, the built-in OpenSSH client behaves differently. When Claude Desktop tries to connect, Windows SSH closes stdin too quickly before Claude can send or receive data. This causes the MCP server to exit immediately every time, regardless of what connection settings you try.
 
@@ -197,7 +197,7 @@ The fix is a small Python script that acts as a bridge. It uses the `paramiko` l
 
 ---
 
-### Step 6 — Install Python and paramiko
+### Step 6 - Install Python and paramiko
 
 1. Download [Python](https://www.python.org/downloads/) and install it. During installation make sure to tick **Add Python to PATH**.
 
@@ -226,7 +226,7 @@ Save the file to your user folder — for example `C:\Users\USERNAME\kali_bridge
 
 ---
 
-### Step 8 — Claude Desktop
+### Step 8 - Claude Desktop
 
 1. Download and install [Claude Desktop](https://claude.ai/download)
 2. Sign in with your Claude Pro account
@@ -260,7 +260,7 @@ Wait for my instructions before doing anything.
 
 ## Daily Usage
 
-1. Boot Kali VM — MCP API starts automatically
+1. Boot Kali VM - MCP API starts automatically
 2. Open Claude Desktop → Kali Home Lab project
 3. Start a new chat
 4. Give Claude instructions
