@@ -212,107 +212,29 @@ The fix is a small Python script that acts as a bridge. It uses the `paramiko` l
    ```
 
 ---
+### Step 7 - Python Bridge Script
 
-### Step 7 — Create the Python Bridge Script
+Download [`kali_bridge.py`](kali_bridge.py) from this repo.
 
-Open Notepad and paste the following. Save it as `C:\Users\USERNAME\kali_bridge.py` — when saving make sure to select **All Files** as the file type so it does not save as `.txt`.
-
+Open it in Notepad and update these two lines with your actual values before saving:
 ```python
-import sys
-import threading
-import paramiko
-
-KALI_HOST = "192.168.56.x"   # your Kali IP
-KALI_USER = "kali"
-KALI_KEY  = r"C:\Users\USERNAME\.ssh\kali_lab"
-
-def stdin_to_remote(chan):
-    try:
-        while True:
-            data = sys.stdin.buffer.read1(4096)
-            if not data:
-                break
-            chan.sendall(data)
-    except:
-        pass
-    finally:
-        try:
-            chan.shutdown_write()
-        except:
-            pass
-
-def remote_to_stdout(chan):
-    try:
-        while True:
-            data = chan.recv(4096)
-            if not data:
-                break
-            sys.stdout.buffer.write(data)
-            sys.stdout.buffer.flush()
-    except:
-        pass
-
-client = paramiko.SSHClient()
-client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-client.connect(
-    KALI_HOST,
-    username=KALI_USER,
-    key_filename=KALI_KEY,
-    timeout=30,
-    banner_timeout=30,
-    auth_timeout=30,
-    channel_timeout=None
-)
-
-transport = client.get_transport()
-transport.set_keepalive(30)
-
-chan = transport.open_session()
-chan.settimeout(None)
-chan.exec_command("mcp-server")
-
-t1 = threading.Thread(target=stdin_to_remote, args=(chan,))
-t2 = threading.Thread(target=remote_to_stdout, args=(chan,))
-
-t1.daemon = True
-t2.daemon = True
-
-t1.start()
-t2.start()
-
-t2.join()
-client.close()
+KALI_HOST = "192.168.56.x"   # replace with your Kali IP
+KALI_KEY  = r"C:\Users\USERNAME\.ssh\kali_lab"  # replace USERNAME with your Windows username
 ```
 
-Replace `192.168.56.x` and `USERNAME` with your actual Kali IP and Windows username.
+Save the file to your user folder — for example `C:\Users\USERNAME\kali_bridge.py`.
 
 ---
 
 ### Step 8 — Claude Desktop
 
-1. Download [Claude Desktop](https://claude.ai/download/)
-2. Sign in with your Claude account
+1. Download and install [Claude Desktop](https://claude.ai/download)
+2. Sign in with your Claude Pro account
 3. Press `Win+R` → type `%APPDATA%\Claude` → Enter
-4. Open `claude_desktop_config.json` in Notepad and replace everything with:
-
-```json
-{
-  "mcpServers": {
-    "kali-lab": {
-      "command": "python",
-      "args": [
-        "C:\\Users\\USERNAME\\kali_bridge.py"
-      ],
-      "transport": "stdio"
-    }
-  }
-}
-```
-
-Replace `USERNAME` with your actual Windows username.
-
-5. Fully quit Claude Desktop (including system tray) and reopen it
-6. Go to **Settings → Developer → kali-lab** — should show **running**
+4. Download [`claude_desktop_config.json`](claude_desktop_config.json) from this repo and replace the existing file in that folder
+5. Open the file and update `USERNAME` to your actual Windows username
+6. Fully quit Claude Desktop including the system tray icon and reopen it
+7. Go to **Settings → Developer → kali-lab** — should show **running**
 
 ---
 
