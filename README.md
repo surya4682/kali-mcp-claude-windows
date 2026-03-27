@@ -1,6 +1,8 @@
-# Claude Desktop + Kali Linux MCP - Windows
+# Claude Desktop + Kali Linux - Windows Setup
 
-Connect Claude Desktop on Windows to a Kali Linux VM via MCP (Model Context Protocol), allowing Claude to run Kali tools and commands through natural language.
+---
+
+Use Claude Desktop on Windows to control Kali Linux tools over SSH. Claude Desktop connects to the MCP server running on Kali via SSH to execute  tools through natural language
 
 ---
 
@@ -9,9 +11,13 @@ Connect Claude Desktop on Windows to a Kali Linux VM via MCP (Model Context Prot
 ```
 Windows Host (Claude Desktop)
         |
-        | Python bridge (paramiko SSH)
+        | SSH via Python bridge (paramiko)
         |
 Kali Linux VM
+        |
+        | MCP server (mcp-kali-server)
+        |
+        Kali tools (nmap, gobuster, nikto etc.)
 ```
 
 ---
@@ -285,7 +291,7 @@ Replace `192.168.56.x` and `USERNAME` with your actual Kali IP and Windows usern
 ### Step 8 — Claude Desktop
 
 1. Download Claude Desktop from **claude.ai/download**
-2. Sign in with your Claude Pro account
+2. Sign in with your Claude account
 3. Press `Win+R` → type `%APPDATA%\Claude` → Enter
 4. Open `claude_desktop_config.json` in Notepad and replace everything with:
 
@@ -384,7 +390,7 @@ To connect additional VMs or servers, create a bridge script for each and add to
 
 ## References
 
-- Official Kali MCP blog post: kali.org/blog/kali-llm-claude-desktop
-- mcp-kali-server package: pkg.kali.org
-- Claude Desktop download: claude.ai/download
-- MCP Protocol docs: modelcontextprotocol.io
+- [Official Kali MCP blog post](https://www.kali.org/blog/kali-llm-claude-desktop/)
+- [mcp-kali-server package](https://www.kali.org/tools/mcp-kali-server/)
+- [Claude Desktop download](https://claude.ai/download)
+- [MCP Protocol docs](https://modelcontextprotocol.io/docs/getting-started/intro)
