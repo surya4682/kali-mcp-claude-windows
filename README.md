@@ -131,25 +131,6 @@ sudo apt update
 sudo apt install mcp-kali-server -y
 ```
 
-**Fix a known bug in the package** — the health check passes a list instead of a string which causes tools to show as missing even when installed:
-
-```bash
-grep -n "which" /usr/share/mcp-kali-server/server.py
-sudo nano +LINE_NUMBER /usr/share/mcp-kali-server/server.py
-```
-
-Find:
-```python
-result = execute_command(["which", tool])
-```
-
-Change to:
-```python
-result = execute_command(f"which {tool}")
-```
-
-Save: `Ctrl+X` → `Y` → `Enter`
-
 Create auto-start service:
 
 ```bash
@@ -193,7 +174,7 @@ Health check should show all tools as `true`.
 
 On Windows, the built-in OpenSSH client behaves differently. When Claude Desktop tries to connect, Windows SSH closes stdin too quickly before Claude can send or receive data. This causes the MCP server to exit immediately every time, regardless of what connection settings you try.
 
-The fix is a small Python script that acts as a bridge. It uses the `paramiko` library to manage the SSH connection properly on Windows — keeping stdin open and forwarding data correctly between Claude Desktop and the Kali MCP server. This is a Windows-only requirement. If you run this setup on macOS or Linux you do not need the bridge.
+The fix is a small Python script that acts as a bridge. It uses the `paramiko` library to manage the SSH connection properly on Windows - keeping stdin open and forwarding data correctly between Claude Desktop and the Kali MCP server. This is a Windows-only requirement. If you run this setup on macOS or Linux you do not need the bridge.
 
 ---
 
@@ -296,7 +277,6 @@ To connect additional VMs or servers, create a bridge script for each and add to
 |---|---|
 | MCP shows failed | `sudo systemctl status kali-mcp-api` on Kali |
 | SSH won't connect | Run `ssh -i C:\Users\USERNAME\.ssh\kali_lab kali@192.168.56.x echo ok` in PowerShell | 
-| Tools show false in health check | See Step 4 - apply the execute_command fix in `/usr/share/mcp-kali-server/server.py`|
 | Request timed out | Make sure kali-mcp-api service is running |
 | Kali IP changed after reboot | Run `ip a` in Kali, update `kali_bridge.py` with new IP |
 | VMs can't reach each other | Confirm Host-Only adapter is set and DHCP is enabled |
