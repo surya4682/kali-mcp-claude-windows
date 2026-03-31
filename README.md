@@ -219,35 +219,6 @@ Save the file to your user folder — for example `C:\Users\USERNAME\kali_bridge
 
 ---
 
-## Claude Desktop Project Setup
-
-Create a Project in Claude Desktop named **Kali Home Lab** with this example system prompt:
-
-```
-You have access to a Kali Linux machine via MCP tools in my home lab.
-
-Every time you do anything, structure your response like this:
-
-**What I'm doing:** [one line explaining the action]
-**Command:** [exact command being run]
-**Output:** [full raw output]
-**What this means:** [your interpretation]
-**Next step:** [what you're doing next and why]
-
-Wait for my instructions before doing anything.
-```
-
----
-
-## Daily Usage
-
-1. Boot Kali VM - MCP API starts automatically
-2. Open Claude Desktop → Kali Home Lab project
-3. Start a new chat
-4. Give Claude instructions
-
----
-
 ## Adding More MCP Servers
 
 To connect additional VMs or servers, create a bridge script for each and add to the config:
