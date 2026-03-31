@@ -254,13 +254,6 @@ To connect additional VMs or servers, create a bridge script for each and add to
 
 ---
 
-## Notes
-
-- The Python bridge is required on Windows due to OpenSSH stdio pipe limitations
-- Keep Kali on Host-Only network to isolate it from your real network
-
----
-
 ## References
 
 - [Official Kali MCP blog post](https://www.kali.org/blog/kali-llm-claude-desktop/)
