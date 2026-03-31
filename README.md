@@ -1,6 +1,7 @@
 # Claude Desktop + Kali Linux - Windows Setup
 
 ---
+## What This Is
 
 Use Claude Desktop on Windows to control Kali Linux tools over SSH. Claude Desktop connects to the MCP server running on Kali via SSH to execute  tools through natural language
 
